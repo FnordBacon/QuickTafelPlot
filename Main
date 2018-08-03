@@ -1,8 +1,23 @@
 import os
+import matplotlib.pyplot as ploter
 
-rootDir = "C:\\Users\\Jacob\\OneDrive - Cal Poly Pomona\\Additively Manufactured Metals Corrosion Team\\Corrosion Test Data\\Failed Tests"
+def GetFilepathArray(rootDir):
+    filepaths = []
 
-for subdir, dirs, files in os.walk(rootDir):
-    for file in files:
-        if file.split(".")[1] == "mpt":
-            print(os.path.join(subdir, file))
+    for subdir, dirs, files in os.walk(rootDir):
+        for file in files:
+            if file.split(".")[1] == "mpt":
+                filepaths.append(os.path.join(subdir, file))
+
+    return filepaths
+
+def PlotAndSaveGraph(filepath, ArrayToPlot, xAxisLabel, yAxisLabel):
+    ploter.plot(ArrayToPlot)
+    ploter.ylabel(yAxisLabel)
+    ploter.xlabel(xAxisLabel)
+
+
+ploter.plot([1,2,3,4])
+ploter.ylabel("yo")
+ploter.xlabel("foo")
+ploter.savefig('foo.png', dpi=600, bbox_inches='tight')
