@@ -32,18 +32,18 @@ def find_start_index(path):
         if line[0] == "\t":
             if line[1] in digits:
                 shifted_index = data.index(line)
-                return shifted_index - 1
+                return shifted_index - 2
                 break
 
         else:
             if line[0] in digits:
                 shifted_index = data.index(line)
-                return shifted_index - 1
+                return shifted_index - 2
                 break
 
 
 def data_extractor(file_path):
-    raw_data = pd.read_csv(file_path, sep='\t', skiprows=find_start_index(file_path))
+    raw_data = pd.read_csv(file_path, sep='\t', skiprows=find_start_index(file_path), error_bad_lines=False)
     potential = [value for value in raw_data["Ewe/V"]]
     current = [value*1000 for value in raw_data["<I>/mA"]]
     return potential, current
@@ -67,15 +67,17 @@ def PlotAndSaveLPRGraph(filepathToSaveTo, ArrayToPlot, xAxisLabel, yAxisLabel):
     plotter.xlabel(xAxisLabel)
     plotter.ticklabel_format(style='sci', axis='x', scilimits=(0, 0))
     plotter.savefig(filepathToSaveTo, bbox_inches='tight')
+    plotter.close()
     # plotter.show()
 
 
 def PlotAndSaveTPGraph(filepathToSaveTo, ArrayToPlot, xAxisLabel, yAxisLabel):
-    plotter.figure(figsize=(11, 8), dpi=600)
+    plotter.figure(figsize=(11, 8.5), dpi=600)
     plotter.semilogx(GetAbsOfArray(ArrayToPlot[0]), ArrayToPlot[1], ".", markersize=1)
     plotter.ylabel(yAxisLabel)
     plotter.xlabel(xAxisLabel)
     plotter.savefig(filepathToSaveTo, bbox_inches='tight')
+    plotter.close()
     # plotter.show()
 
 
