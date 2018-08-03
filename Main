@@ -4,13 +4,17 @@ import matplotlib.pyplot as plotter
 
 def GetFilepathArray(rootDir):
     filepaths = []
+    fileNames = []
 
     for subdir, dirs, files in os.walk(rootDir):
         for file in files:
+            # only gets files with the mpt extension
             if file.split(".")[1] == "mpt":
-                filepaths.append(os.path.join(subdir, file))
+                # filepaths.append(os.path.join(subdir, file))
+                filepaths.append(subdir)
+                fileNames.append(file)
 
-    return filepaths
+    return filepaths, fileNames
 
 
 def GetAbsOfArray(Array):
@@ -41,4 +45,4 @@ def PlotAndSaveTPGraph(filepathToSaveTo, ArrayToPlot, xAxisLabel, yAxisLabel):
     plotter.xlabel(xAxisLabel)
     plotter.savefig(filepathToSaveTo, bbox_inches='tight')
     # plotter.show()
-    
+
