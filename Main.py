@@ -65,7 +65,7 @@ def PlotAndSaveLPRGraph(filepathToSaveTo, ArrayToPlot, xAxisLabel, yAxisLabel):
     plotter.plot(ArrayToPlot[0], ArrayToPlot[1], ".", markersize=1)
     plotter.ylabel(yAxisLabel)
     plotter.xlabel(xAxisLabel)
-    plotter.ticklabel_format(style='sci', axis='x', scilimits=(0, 0))
+    plotter.ticklabel_format(style='sci', axis='x', scilimits=(0, 0), useOffset=False)
     plotter.savefig(filepathToSaveTo, bbox_inches='tight')
     plotter.close()
     # plotter.show()
@@ -90,10 +90,12 @@ for entry in filePaths:
     Voltage, Current = data_extractor(entry)
 
     GraphFileName = entry.split("\\")[-2]
-    print(GraphFileName)
+    print("Processing: " + GraphFileName)
 
     if "LPR" in entry:
         PlotAndSaveLPRGraph(saveDir + "\\LPR_" + str(GraphFileName) + ".pdf", [Current, Voltage], 'Current (mA)', 'Voltage (V vs SCE)')
 
     if "TP" in entry:
         PlotAndSaveTPGraph(saveDir + "\\TP_" + str(GraphFileName) + ".pdf", [Current, Voltage], 'Current (mA)', 'Voltage (V vs SCE)')
+
+print("All LPR and Tafel .mpt files have been plotted.")
