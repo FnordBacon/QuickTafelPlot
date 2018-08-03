@@ -1,5 +1,7 @@
 import os
 import matplotlib.pyplot as plotter
+import pandas as pd
+from string import digits
 
 
 def GetFilepathArray(rootDir):
@@ -15,6 +17,34 @@ def GetFilepathArray(rootDir):
                 fileNames.append(file)
 
     return dirpaths, fileNames
+
+
+def find_start_index(path):
+    with open(path) as file:
+        data = file.readlines()
+
+    for line in data:
+        if line[0] == "\n":
+            continue
+
+        if line[0] == "\t":
+            if line[1] in digits:
+                shifted_index = data.index(line)
+                return shifted_index - 1
+                break
+
+        else:
+            if line[0] in digits:
+                shifted_index = data.index(line)
+                return shifted_index - 1
+                break
+
+
+def data_extractor(file_path):
+    raw_data = pd.read_csv(file_path, sep='\t', skiprows=find_start_index(file_path))
+    potential = [value for value in raw_data["Ewe/V"]]
+    current = [value for value in raw_data["<I>/mA"]]
+    return potential, current
 
 
 def GetAbsOfArray(Array):
@@ -45,5 +75,3 @@ def PlotAndSaveTPGraph(filepathToSaveTo, ArrayToPlot, xAxisLabel, yAxisLabel):
     plotter.xlabel(xAxisLabel)
     plotter.savefig(filepathToSaveTo, bbox_inches='tight')
     # plotter.show()
-
-
