@@ -7,16 +7,17 @@ from string import digits
 def GetFilepathArray(rootDir):
     dirpaths = []
     fileNames = []
+    filepaths = []
 
     for subdir, dirs, files in os.walk(rootDir):
         for file in files:
             # only gets files with the mpt extension
-            if file.split(".")[1] == "mpt":
-                # dirpath.append(os.path.join(subdir, file))
+            if 'mpt' in file:
                 dirpaths.append(subdir)
                 fileNames.append(file)
+                filepaths.append(os.path.join(subdir, file))
 
-    return dirpaths, fileNames
+    return dirpaths, fileNames, filepaths
 
 
 def find_start_index(path):
@@ -75,3 +76,11 @@ def PlotAndSaveTPGraph(filepathToSaveTo, ArrayToPlot, xAxisLabel, yAxisLabel):
     plotter.xlabel(xAxisLabel)
     plotter.savefig(filepathToSaveTo, bbox_inches='tight')
     # plotter.show()
+
+
+rootDir = r'M:\myWorkShop\pyWorkShop\Data to process\Test 018'
+dirPath, fileName, filePaths = GetFilepathArray(rootDir)
+
+for entry in filePaths:
+
+    data = data_extractor(entry)
