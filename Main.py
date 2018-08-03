@@ -3,18 +3,18 @@ import matplotlib.pyplot as plotter
 
 
 def GetFilepathArray(rootDir):
-    filepaths = []
+    dirpaths = []
     fileNames = []
 
     for subdir, dirs, files in os.walk(rootDir):
         for file in files:
             # only gets files with the mpt extension
             if file.split(".")[1] == "mpt":
-                # filepaths.append(os.path.join(subdir, file))
-                filepaths.append(subdir)
+                # dirpath.append(os.path.join(subdir, file))
+                dirpaths.append(subdir)
                 fileNames.append(file)
 
-    return filepaths, fileNames
+    return dirpaths, fileNames
 
 
 def GetAbsOfArray(Array):
