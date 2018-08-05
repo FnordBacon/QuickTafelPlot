@@ -1,6 +1,5 @@
 import os
 import matplotlib.pyplot as plotter
-import matplotlib.ticker as tick
 import pandas as pd
 from string import digits
 
@@ -59,7 +58,7 @@ def GetAbsOfArray(Array):
     return results
 
 
-def PlotAndSaveLPRGraph(filepathToSaveTo, ArrayToPlot, xAxisLabel, yAxisLabel, title):
+def PlotAndSaveLPRGraph(filepathToSaveTo, ArrayToPlot, xAxisLabel, yAxisLabel):
     # sets the plot to about the size of a piece of paper
     plotter.figure(figsize=(11, 8.5), dpi=600)
     # in puts the data to the plotter
@@ -67,16 +66,15 @@ def PlotAndSaveLPRGraph(filepathToSaveTo, ArrayToPlot, xAxisLabel, yAxisLabel, t
     plotter.title(title)
     plotter.ylabel(yAxisLabel)
     plotter.xlabel(xAxisLabel)
-    plotter.ticklabel_format(style='sci', axis='x', scilimits=(0, 0))
+    plotter.ticklabel_format(style='sci', axis='x', scilimits=(0, 0), useOffset=False)
     plotter.savefig(filepathToSaveTo, bbox_inches='tight')
     plotter.close()
     # plotter.show()
 
 
-def PlotAndSaveTPGraph(filepathToSaveTo, ArrayToPlot, xAxisLabel, yAxisLabel, title):
+def PlotAndSaveTPGraph(filepathToSaveTo, ArrayToPlot, xAxisLabel, yAxisLabel):
     plotter.figure(figsize=(11, 8.5), dpi=600)
     plotter.semilogx(GetAbsOfArray(ArrayToPlot[0]), ArrayToPlot[1], ".", markersize=1)
-    plotter.title(title)
     plotter.ylabel(yAxisLabel)
     plotter.xlabel(xAxisLabel)
     plotter.savefig(filepathToSaveTo, bbox_inches='tight')
@@ -93,10 +91,12 @@ for entry in filePaths:
     Voltage, Current = data_extractor(entry)
 
     GraphFileName = entry.split("\\")[-2]
-    print(GraphFileName)
+    print("Processing: " + GraphFileName)
 
     if "LPR" in entry:
-        PlotAndSaveLPRGraph(saveDir + "\\LPR_" + str(GraphFileName) + ".pdf", [Current, Voltage], 'Current (mA)', 'Voltage (V vs SCE)', str(GraphFileName)+"_LPR")
+        PlotAndSaveLPRGraph(saveDir + "\\LPR_" + str(GraphFileName) + ".pdf", [Current, Voltage], 'Current (mA)', 'Voltage (V vs SCE)')
 
     if "TP" in entry:
-        PlotAndSaveTPGraph(saveDir + "\\TP_" + str(GraphFileName) + ".pdf", [Current, Voltage], 'Current (mA)', 'Voltage (V vs SCE)', str(GraphFileName)+"_TP")
+        PlotAndSaveTPGraph(saveDir + "\\TP_" + str(GraphFileName) + ".pdf", [Current, Voltage], 'Current (mA)', 'Voltage (V vs SCE)')
+
+print("All LPR and Tafel .mpt files have been plotted.")
